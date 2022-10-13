@@ -42,10 +42,14 @@ public class ReviewService {
 
     @Cacheable(value = REVIEWS, key = "domain")
     public ReviewDTO getReview(String domain) {
-        return Optional.ofNullable(cacheManager.getCache(REVIEWS))
+        ReviewDTO reviewDTO = Optional.ofNullable(cacheManager.getCache(REVIEWS))
                 .map(cache -> cache.get(domain))
                 .map(valueWrapper -> (ReviewDTO) valueWrapper.get())
                 .orElseGet(() -> getReviews(domain));
+
+        log.info("Found review={}, for domain={}", reviewDTO, domain);
+
+        return reviewDTO;
 
     }
 
@@ -70,9 +74,9 @@ public class ReviewService {
                     .map(strings -> strings[0]).orElseThrow();
             rating = ratingElement.map(Element::text).orElseThrow();
 
-        } catch (IOException | NoSuchElementException e) {
+        } catch (IOException | NoSuchElementException ex) {
             throw new ReviewNotFoundException(
-                    String.format("Couldn't parse the weblink with error message = %s", e.getMessage()));
+                    String.format("Couldn't parse the weblink with error message=%s", ex.getMessage()));
         }
 
         ReviewDTO reviewDTO = ReviewDTO.builder().rating(rating).reviewsCount(reviewsCount).build();

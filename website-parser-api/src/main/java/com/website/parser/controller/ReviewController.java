@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("internal/reviews")
+@RequestMapping("reviews")
 public class ReviewController {
 
     private ReviewService reviewsService;

@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>website-parser-internal-api</artifactId>
+    <artifactId>website-parser-api</artifactId>
 
     <packaging>jar</packaging>
 

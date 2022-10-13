@@ -27,4 +27,4 @@ Website parser api should be available at
 http://localhost:8080/reviews/{domain}
 ```
 ### How it works example 
-![](../../Downloads/Kooha-2022-10-13-17-34-27.gif)
+![](work-example.gif)

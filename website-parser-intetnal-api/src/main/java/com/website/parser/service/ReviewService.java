@@ -18,10 +18,13 @@ import java.util.Optional;
 @Service
 @Slf4j
 @PropertySource("classpath:parser.properties")
-public class ReviewsService {
+public class ReviewService {
 
     @Value("${link.to.parse}")
     private String linkToParse;
+
+    @Value("${review.main.element.class.id}")
+    private String reviewMainElementClassId;
 
     @Value("${review.count.element.class}")
     private String reviewCountElementClass;
@@ -42,16 +45,16 @@ public class ReviewsService {
         String rating;
 
         try {
-            Document document = Jsoup.connect(linkToPageWithReview).get();
-            Element mainReviewDiv = document.getElementById("business-unit-title");
+            Document reviewPage = Jsoup.connect(linkToPageWithReview).get();
+            Element mainReviewElement = reviewPage.getElementById(reviewMainElementClassId);
+            Optional<Element> reviewsCountElement = Optional.of(mainReviewElement.getElementsByClass(reviewCountElementClass)).map(Elements::first);
+            Optional<Element> ratingElement = Optional.of(mainReviewElement.getElementsByClass(reviewRatingElementClass)).map(Elements::first);
 
-            Optional<Element> reviewsCountElement = Optional.of(mainReviewDiv.getElementsByClass(reviewCountElementClass)).map(Elements::first);
-            Optional<Element> ratingElement = Optional.of(mainReviewDiv.getElementsByClass(reviewRatingElementClass)).map(Elements::first);
             reviewsCount = reviewsCountElement.map(Element::text).map(text -> text.split("\\s+")).map(strings -> strings[0]).orElseThrow();
             rating = ratingElement.map(Element::text).orElseThrow();
 
         } catch (IOException | NoSuchElementException e) {
-            throw  new ReviewNotFoundException(String.format("Couldn't parse the weblink = %s, with error message = %s", linkToPageWithReview, e.getMessage()));
+            throw new ReviewNotFoundException(String.format("Couldn't parse the weblink with error message = %s", e.getMessage()));
         }
 
         return ReviewDTO.builder().rating(rating).reviewsCount(reviewsCount).build();

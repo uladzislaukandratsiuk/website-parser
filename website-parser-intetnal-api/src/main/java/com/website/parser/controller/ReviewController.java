@@ -1,7 +1,7 @@
 package com.website.parser.controller;
 
 import com.website.parser.dto.ReviewDTO;
-import com.website.parser.service.ReviewsService;
+import com.website.parser.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +11,10 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/reviews")
-public class ReviewsController {
+@RequestMapping("internal/reviews")
+public class ReviewController {
 
-    private ReviewsService reviewsService;
+    private ReviewService reviewsService;
 
     @GetMapping("/{domain}")
     private Mono<ReviewDTO> getReview(@PathVariable String domain) {

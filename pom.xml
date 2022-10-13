@@ -8,14 +8,19 @@
 		<version>2.7.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.website.parser</groupId>
-	<artifactId>website-parser</artifactId>
+	<artifactId>website-parser-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>website-parser</name>
+	<name>website-parser-parent</name>
 	<description>Website parser</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
+	<packaging>pom</packaging>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,6 +37,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,4 +73,7 @@
 		</plugins>
 	</build>
 
+	<modules>
+		<module>website-parser-intetnal-api</module>
+	</modules>
 </project>
